@@ -1,4 +1,4 @@
-# 🚀 AI Freelance Assistant Extension
+#  AI Freelance Assistant Extension
 
 **A powerful, context-aware Chrome Extension backed by an Express.js API that generates highly-personalized freelance job proposals using Google Gemini AI.**
 
@@ -6,7 +6,7 @@ Designed to streamline the freelance bidding process on platforms like Upwork, F
 
 ---
 
-## ✨ Features
+##  Features
 - **Extracted Context Analysis**: Automatically parses active job web pages to extract requirements, job titles, and company roles silently.
 - **Node.js Gateway Backend**: Includes an independent Express server that acts as a middleman for API interactions, featuring a built-in day-by-day IP Rate Limiter to protect the API key while giving anonymous free users a quota limit.
 - **Dual API Modes**: Users can frictionlessly fall back to their own API keys manually via strict local Chrome storage usage, ensuring 0% backend-dependency downtimes.
@@ -15,14 +15,14 @@ Designed to streamline the freelance bidding process on platforms like Upwork, F
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 **Frontend:** HTML5, Modern CSS (Glassmorphism UI), Vanilla JavaScript, Chrome Extension APIs v3
 **Backend:** Node.js, Express, Cross-Origin Resource Sharing (CORS)
 **AI Engine:** Google Generative Language Model (\`gemini-2.5-flash\`) Architecture
 
 ---
 
-## 🚀 Installation & Setup
+##  Installation & Setup
 
 ### 1. Backend Server
 The server manages API connections securely while handling free quotas.

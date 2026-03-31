@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (usageContainer) usageContainer.style.display = 'block';
             try {
-                const res = await fetch('http://localhost:3000/api/usage');
+                const res = await fetch('https://ai-prompt-generation.onrender.com/api/usage');
                 if (!res.ok) throw new Error();
                 const data = await res.json();
                 if (usageText) usageText.textContent = `${data.used}/${data.limit} free proposals used today`;
@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 let data;
                 if (apiMode === 'app') {
-                    const res = await fetch('http://localhost:3000/api/generate', {
+                    const res = await fetch('https://ai-prompt-generation.onrender.com/api/generate', {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ prompt: prompt })
