@@ -18,6 +18,22 @@ const getTodayDateStr = () => {
     return new Date().toISOString().split('T')[0];
 };
 
+// Route: Health Check / Landing Page
+app.get('/', (req, res) => {
+    res.send(`
+        <html>
+            <title>AI Assistant API</title>
+            <body style="font-family: system-ui, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: #fff; margin: 0;">
+                <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 3rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                    <h1 style="margin-top: 0;">✨ AI Freelance API is Online</h1>
+                    <p style="color: #94a3b8; max-width: 400px; line-height: 1.6;">This is the secure backend server operating the AI Freelance Assistant Chrome Extension.</p>
+                    <p style="color: #38bdf8; font-family: monospace; padding: 10px; background: rgba(56, 189, 248, 0.1); border-radius: 8px; margin-bottom: 0;">Status: 200 OK | Node.js Proxy</p>
+                </div>
+            </body>
+        </html>
+    `);
+});
+
 // Route: Get Usage
 app.get('/api/usage', (req, res) => {
     const ip = req.ip || req.connection.remoteAddress;
