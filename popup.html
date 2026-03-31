@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Freelance Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <span class="gradient-text">Freelance AI</span>
+            </div>
+            <button id="settingsBtn" class="icon-btn" title="Settings">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+        </header>
+
+        <!-- Main View -->
+        <main id="mainView" class="view active">
+            <div class="card status-card">
+                <div class="status-indicator" id="statusDot"></div>
+                <p id="jobStatus">Analyzing current job post...</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Job Context</span>
+                    <span id="sourceTag" style="display: none; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8;"></span>
+                </div>
+                <div class="glass-panel" id="jobContext">
+                    <p class="text-muted text-sm" id="jobContextFallback">Please open a job post on LinkedIn, Upwork, Fiverr, or Freelancer.</p>
+                </div>
+                
+                <div style="margin-top: 8px; text-align: right;">
+                    <a href="#" id="manualModeBtn" style="font-size: 0.8rem; color: #94a3b8; text-decoration: underline;">Paste Job Description manually</a>
+                </div>
+                
+                <div id="manualModePanel" class="hidden" style="margin-top: 10px;">
+                    <input type="text" id="manualJobTitle" class="glass-input" placeholder="Job Title (optional)" style="margin-bottom: 5px; width: 100%;">
+                    <input type="text" id="manualJobCompany" class="glass-input" placeholder="Company Name (optional)" style="margin-bottom: 5px; width: 100%;">
+                    <textarea id="manualJobText" class="glass-input small-textarea" placeholder="Paste the job description here..." style="width: 100%;"></textarea>
+                    <button id="applyManualJobBtn" class="btn-secondary" style="margin-top: 8px; width: 100%; padding: 8px;">Use Manual Details</button>
+                </div>
+            </div>
+
+            <div class="section controls-grid">
+                <div class="control-group">
+                    <label>Tone</label>
+                    <select id="toneSelector" class="custom-select">
+                        <option value="professional">👔 Professional</option>
+                        <option value="friendly">👋 Friendly</option>
+                        <option value="confident">🚀 Confident</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Beginner Mode</label>
+                    <label class="switch">
+                        <input type="checkbox" id="beginnerModeToggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="usageContainer" style="text-align: center; margin-bottom: 10px; font-size: 0.8rem; color: #94a3b8; display: none;">
+                <span id="usageText">Loading usage...</span>
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+                <button id="generateBtn" class="btn-primary" disabled style="flex: 2;">
+                    <span class="btn-text">Generate Proposal</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+                <button id="regenerateShorterBtn" class="btn-secondary hidden" style="flex: 1; padding: 0 10px; font-size: 0.85rem;" title="Make it shorter and more impactful">
+                    <span class="btn-text">Shorter</span>
+                </button>
+            </div>
+
+            <!-- Results -->
+            <div id="resultArea" class="hidden slide-up">
+                <div class="result-header">
+                    <div class="section-title">Proposal</div>
+                    <div class="action-buttons">
+                        <button id="copyBtn" class="icon-btn small" title="Copy to Clipboard">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                        <button id="insertBtn" class="icon-btn small" title="Insert into page">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="beginnerInsights" class="beginner-panel">
+                    <div class="insight-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21h6"></path><path d="M12 2v2"></path><path d="M12 21v-2"></path><path d="M4.22 4.22l1.42 1.42"></path><path d="M18.36 18.36l1.42 1.42"></path><path d="M22 12h-2"></path><path d="M4 12H2"></path><path d="M18.36 5.64l-1.42 1.42"></path><path d="M5.64 18.36l1.42-1.42"></path><circle cx="12" cy="12" r="4"></circle></svg>
+                        <span>Why this works:</span>
+                    </div>
+                    <p id="insightText">The AI structured this proposal to highlight the client's pain point first, then your specific solution.</p>
+                </div>
+                
+                <textarea id="proposalOutput" class="textarea-output" spellcheck="false"></textarea>
+                
+                <div id="suggestionsContainer" class="hidden" style="margin-top: 10px;">
+                    <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px; font-weight: 500;">Smart Insert (Tap to add):</div>
+                    <div id="suggestionsList" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Settings View -->
+        <main id="settingsView" class="view hidden">
+            <div class="view-header">
+                <h2>Profile & Settings</h2>
+            </div>
+            
+            <div class="settings-scroll-area">
+                <div class="section">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label>API Source</label>
+                        <select id="apiModeSelector" class="custom-select">
+                            <option value="app">Use app service (recommended)</option>
+                            <option value="custom">Use my custom API key</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="customApiKeyGroup" style="display: none;">
+                        <label>Gemini API Key <span class="required">*</span></label>
+                        <input type="password" id="apiKeyInput" placeholder="AIza..." class="glass-input" style="width: 100%;">
+                        <small class="text-muted">Get a free key at <a href="https://aistudio.google.com/" target="_blank" style="color:var(--primary);text-decoration:underline;">aistudio.google.com</a>.</small>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Your Freelance Profile</div>
+                    <div class="form-group">
+                        <label>Core Skills</label>
+                        <input type="text" id="skillsInput" placeholder="e.g. React, UX Writing, Python" class="glass-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Brief Experience</label>
+                        <textarea id="experienceInput" placeholder="e.g. 3 years creating SaaS platforms. I focus on clean code and performance." class="glass-input small-textarea"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Portfolio / Website Link</label>
+                        <input type="text" id="portfolioInput" placeholder="https://..." class="glass-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button id="backBtn" class="btn-secondary">Cancel</button>
+                <button id="saveSettingsBtn" class="btn-primary">Save Profile</button>
+            </div>
+        </main>
+    </div>
+    
+    <script src="assets/js/popup.js"></script>
+</body>
+</html>

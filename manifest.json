@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "AI Freelance Assistant",
+  "version": "1.0",
+  "description": "AI-powered assistant to generate personalized, human-like freelance proposals.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.openai.com/*",
+    "https://*.upwork.com/*",
+    "https://*.fiverr.com/*",
+    "https://*.freelancer.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Freelance Assistant"
+  },
+  "background": {
+    "service_worker": "assets/js/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.upwork.com/*",
+        "https://*.fiverr.com/*",
+        "https://*.freelancer.com/*"
+      ],
+      "js": ["assets/js/content.js"]
+    }
+  ]
+}
